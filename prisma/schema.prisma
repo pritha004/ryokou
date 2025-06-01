@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  imageUrl    String?
+  nationality String
+  currency    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Trip        Trip[]
+}
+
+model Trip {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  trip_name    String
+  destination  String
+  start_date   DateTime
+  end_date     DateTime
+  budget       Float?
+  travel_style String?
+  interests    String?
+  itineraries  Json[]
+  createdAt    DateTime    @default(now())
+  Visa_Info    Visa_Info[]
+}
+
+model Visa_Info {
+  id              String   @id @default(uuid())
+  tripId          String
+  trip            Trip     @relation(fields: [tripId], references: [id])
+  visa_summary    Json[]
+  cost_estimate   Float
+  processing_time DateTime
+}
