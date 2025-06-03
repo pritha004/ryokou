@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function LogInComp({ signInFn }: any) {
   return (
     <div className="relative flex flex-col justify-center items-center gap-3 w-full h-screen">
-      <h1 className="text-gray-700">Please sign in to continue</h1>
+      <h1 className="text-gray-400">Please sign in to continue</h1>
       <form action={signInFn}>
         <Button
           type="submit"

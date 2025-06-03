@@ -112,6 +112,16 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+:root {
+  --font-handwritten: 'Shadows_Into_Light', sans-serif;
+  --background: #171717;
+  --foreground: #ffffff;
+}
+
+.font-handwritten {
+  font-family: var(--font-handwritten);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
