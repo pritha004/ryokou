@@ -1,4 +1,3 @@
-// app/components/HeroMap.tsx
 "use client";
 
 import {
@@ -12,6 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { geoUrl, locations } from "@/constants/hero-locations";
+import { Plane } from "lucide-react";
 
 export default function HeroSection() {
   const [hoveredLocation, setHoveredLocation] = useState<
@@ -25,7 +25,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className={`relative h-[calc(100vh-60px)] bg-[#0e0e10] text-white overflow-hidden`}
+      className={`relative h-[calc(100vh-60px)] bg-background text-white overflow-hidden`}
       onMouseMove={handleMouseMove}
     >
       <div className="absolute inset-0 flex items-center justify-center">
@@ -33,7 +33,7 @@ export default function HeroSection() {
           projectionConfig={{ scale: 160 }}
           width={980}
           height={500}
-          style={{ width: "100%", height: "100%", opacity: 0.6 }}
+          style={{ width: "100%", height: "100%", opacity: 0.4 }}
         >
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
@@ -107,15 +107,15 @@ export default function HeroSection() {
           RYOKOU
         </h1>
 
-        <p className="text-md md:text-lg mb-8 max-w-xl ">
+        <p className="text-md md:text-lg text-gray-200 font-extralight mb-8 max-w-xl ">
           Travel planning made effortless with intelligent curation.
         </p>
 
         <Link
           href={"/login"}
-          className="border hover:bg-white hover:text-black border-white px-6 py-2 rounded-full pointer-events-auto font-handwritten"
+          className="flex gap-1 border hover:bg-white hover:text-black border-white px-4 py-2 rounded-md pointer-events-auto animate-bounce"
         >
-          Let's Go!
+          Let's Go <Plane />
         </Link>
       </div>
     </section>

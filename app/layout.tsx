@@ -33,7 +33,7 @@ export default function RootLayout({
           <Header />
           <main className="min-h-screen">
             {children}
-            <footer className="bottom-0 left-0 fixed flex justify-center pb-4 w-full text-center">
+            <footer className="bottom-0 left-0 fixed flex justify-center pb-4 w-full text-center font-extralight text-sm">
               <p> 2025 © Ryokou. All rights reserved.</p>
             </footer>
           </main>

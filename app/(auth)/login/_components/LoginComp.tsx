@@ -1,16 +1,21 @@
-"use client";
-
+import { checkUser } from "@/actions/user";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { redirect } from "next/navigation";
 
-export default function LogInComp({ signInFn }: any) {
+export default async function LogInComp({ signInFn }: any) {
+  const user = await checkUser();
+
+  if (user) {
+    redirect("/trip-plan");
+  }
+
   return (
     <div className="relative flex flex-col justify-center items-center gap-3 w-full h-screen">
       <h1 className="text-gray-400">Please sign in to continue</h1>
       <form action={signInFn}>
         <Button
           type="submit"
-          className="flex justify-center items-center gap-2 w-fit transition-all duration-300 ease-in-out"
+          className="flex justify-center items-center gap-2 w-fit transition-all duration-300 ease-in-out cursor-pointer"
         >
           <svg
             className={`w-5 h-5 transition-transform duration-300 ease-in-out`}

@@ -60,7 +60,7 @@ export const locations: Location[] = [
   {
     name: "Maasai Mara",
     coords: [35.1436, -1.4931],
-    trip: "Big Five safari adventure",
+    trip: "Big safari adventure",
     image: "/images/maasaimara.jpg",
   },
   {
