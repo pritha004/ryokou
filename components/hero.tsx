@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { geoUrl, locations } from "@/constants/hero-locations";
 import { Plane } from "lucide-react";
+import { useImagePreloader } from "@/hooks/use-imagepreloader";
 
 export default function HeroSection() {
   const [hoveredLocation, setHoveredLocation] = useState<
@@ -22,6 +23,16 @@ export default function HeroSection() {
   const handleMouseMove = (event: React.MouseEvent) => {
     setMousePos({ x: event.clientX, y: event.clientY });
   };
+
+  const isLoaded = useImagePreloader(locations.map((loc) => loc.image));
+
+  if (!isLoaded) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-white">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <section
