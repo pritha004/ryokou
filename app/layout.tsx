@@ -3,7 +3,6 @@ import { Inter, Shadows_Into_Light } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import Header from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 const handwritten = Shadows_Into_Light({
@@ -30,13 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="min-h-screen">
-            {children}
-            <footer className="bottom-0 left-0 fixed flex justify-center pb-4 w-full text-center font-extralight text-sm">
-              <p> 2025 © Ryokou. All rights reserved.</p>
-            </footer>
-          </main>
+          <main>{children}</main>
           <Toaster richColors />
         </ThemeProvider>
       </body>
