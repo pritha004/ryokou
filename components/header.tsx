@@ -19,14 +19,6 @@ const Header = async () => {
             alt="Ryokou Logo"
           />
         </Link>
-
-        <div className="flex items-center space-x-2 lg:space-x-4">
-          {user && (
-            <>
-              <Link href={"/logout"}>Logout</Link>
-            </>
-          )}
-        </div>
       </nav>
     </header>
   );

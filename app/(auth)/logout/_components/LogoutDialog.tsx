@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { DialogDescription } from "@radix-ui/react-dialog";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
 export default function LogoutDialog({ signOutFn }: any) {
   const [open, setOpen] = useState(false);
@@ -21,6 +21,7 @@ export default function LogoutDialog({ signOutFn }: any) {
   return (
     <Dialog open={open}>
       <DialogContent>
+        <DialogTitle></DialogTitle>
         <DialogHeader>
           <h2 className="text-lg font-medium">Confirm Logout</h2>
         </DialogHeader>
