@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import LogInComp from "./_components/LoginComp";
+import LogInComp from "./_components/login-comp";
 
 const signInFn = async () => {
   "use server";

@@ -1,6 +1,6 @@
 import { getUserProfileCompleteStatus } from "@/actions/user";
 import { redirect } from "next/navigation";
-import CompleteProfileForm from "./_components/CompleteProfileForm";
+import CompleteProfileForm from "./_components/profile-form";
 
 const CompleteProfile = async () => {
   const { isProfileComplete }: any = await getUserProfileCompleteStatus();
@@ -9,11 +9,7 @@ const CompleteProfile = async () => {
     redirect("/dashboard");
   }
 
-  return (
-    // <div className="flex justify-center items-center">
-    <CompleteProfileForm />
-    // {/* </div> */}
-  );
+  return <CompleteProfileForm />;
 };
 
 export default CompleteProfile;

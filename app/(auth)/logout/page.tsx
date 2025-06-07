@@ -1,5 +1,5 @@
 import { signOut } from "@/auth";
-import LogoutDialog from "./_components/LogoutDialog";
+import LogoutDialog from "./_components/logout-dialog";
 
 export default function LogOut() {
   const signOutFn = async () => {
