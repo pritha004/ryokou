@@ -3,7 +3,7 @@ import { Home, Bookmark } from "lucide-react";
 export const navLinks = [
   {
     title: "Home",
-    url: "/trip-plan",
+    url: "/dashboard",
     icon: Home,
   },
   {

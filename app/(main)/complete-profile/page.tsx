@@ -6,13 +6,13 @@ const CompleteProfile = async () => {
   const { isProfileComplete }: any = await getUserProfileCompleteStatus();
 
   if (isProfileComplete) {
-    redirect("/trip-plan");
+    redirect("/dashboard");
   }
 
   return (
-    <main>
-      <CompleteProfileForm />
-    </main>
+    // <div className="flex justify-center items-center">
+    <CompleteProfileForm />
+    // {/* </div> */}
   );
 };
 

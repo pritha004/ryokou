@@ -84,7 +84,7 @@ const CompleteProfileForm = () => {
   useEffect(() => {
     if (updateResult?.success && !updateLoading) {
       toast.success("Profile completed successfully!");
-      router.push("/trip-plan");
+      router.push("/dashboard");
       router.refresh();
     }
   }, [updateResult, updateLoading]);
@@ -94,8 +94,8 @@ const CompleteProfileForm = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center">
-      <Card className="w-full max-w-sm mt-10 mx-2 drop-shadow-md drop-shadow-cyan-400/30">
+    <div className="mt-12 flex justify-center">
+      <Card className="w-full max-w-md mt-10 mx-2 drop-shadow-md drop-shadow-cyan-400/30">
         <CardHeader>
           <CardTitle className=" text-lg md:text-2xl text-center">
             Complete Your Profile

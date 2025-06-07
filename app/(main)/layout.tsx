@@ -11,10 +11,10 @@ const MainLayout = async ({
   const session = await auth();
 
   return (
-    <div className="container">
+    <div>
       <SidebarProvider>
         <AppSidebar user={session?.user} />
-        <main className="">{children}</main>
+        <main className="flex flex-col flex-1 w-full">{children}</main>
       </SidebarProvider>
     </div>
   );
