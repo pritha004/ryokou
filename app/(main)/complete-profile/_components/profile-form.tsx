@@ -70,8 +70,6 @@ const CompleteProfileForm = () => {
   });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
-
     try {
       await updateUserFn({
         ...values,

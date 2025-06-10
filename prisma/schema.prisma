@@ -21,19 +21,24 @@ model User {
 }
 
 model Trip {
-  id           String      @id @default(uuid())
-  userId       String
-  user         User        @relation(fields: [userId], references: [id])
-  trip_name    String
-  destination  String
-  start_date   DateTime
-  end_date     DateTime
-  budget       Float?
-  travel_style String?
-  interests    String?
-  itineraries  Json[]
-  createdAt    DateTime    @default(now())
-  Visa_Info    Visa_Info[]
+  id                String      @id @default(uuid())
+  userId            String
+  user              User        @relation(fields: [userId], references: [id])
+  trip_name         String
+  destination       String
+  start_date        DateTime
+  end_date          DateTime
+  budget            Float?
+  travel_style      String?
+  interests         String?
+  number_of_persons Int
+  is_visa_required  Boolean
+  itineraries       Json
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  Visa_Info         Visa_Info[]
+
+  @@index([userId])
 }
 
 model Visa_Info {

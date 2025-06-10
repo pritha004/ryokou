@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 
 import useFetch from "@/hooks/use-fetch";
 import { tripFormSchema } from "@/app/lib/schema";
@@ -21,15 +21,16 @@ import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
+import { generateAndSaveTripDetails } from "@/actions/itinenary";
 
 const TripForm = () => {
   const router = useRouter();
 
   const {
-    loading: itinenaryLoading,
-    fn: generateItinenaryFn,
-    data: itinenaryResult,
-  } = useFetch();
+    loading: tripLoading,
+    fn: generateAndSaveTripFn,
+    data: tripResult,
+  } = useFetch(generateAndSaveTripDetails);
 
   const {
     register,
@@ -43,10 +44,8 @@ const TripForm = () => {
   });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
-
     try {
-      await generateItinenaryFn({
+      await generateAndSaveTripFn({
         ...values,
       });
     } catch (error) {
@@ -55,12 +54,12 @@ const TripForm = () => {
   };
 
   useEffect(() => {
-    if (itinenaryResult?.success && !itinenaryLoading) {
-      toast.success("Profile completed successfully!");
-      router.push("/dashboard");
+    if (tripResult?.success && !tripLoading) {
+      toast.success("Trip generated successfully!");
+      router.push("/trip-plan");
       router.refresh();
     }
-  }, [itinenaryResult, itinenaryLoading]);
+  }, [tripResult, tripLoading]);
 
   return (
     <div className="mt-12 flex justify-center">
@@ -165,9 +164,21 @@ const TripForm = () => {
             {...register("interests")}
           />
         </div>
-
-        <div className="">
-          <Button type="submit">Submit</Button>
+        <div>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            disabled={tripLoading}
+          >
+            {tripLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </div>
       </form>
     </div>
