@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Shadows_Into_Light } from "next/font/google";
+import { Shadows_Into_Light, Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
 const handwritten = Shadows_Into_Light({
   weight: "400",
   variable: "--font-handwritten",
+});
+
+const playfair = Playfair_Display({
+  weight: "600",
+  variable: "--font-playfair",
+});
+
+const lato = Lato({
+  weight: "300",
+  style: "normal",
+  variable: "--font-lato",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} ${handwritten.variable}`}>
+      <body
+        className={`${handwritten.variable} ${playfair.variable} ${lato.variable}`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

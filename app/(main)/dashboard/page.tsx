@@ -14,14 +14,16 @@ const Dashboard = async () => {
 
   return (
     <div className="w-full min-h-screen p-4 border-2 border-red-400">
-      <div>
-        <h1>
-          Hi {session?.user?.name?.split(" ")[0]}! Ready to switch on your
-          out-of-office?
+      <div className="mt-4 p-4">
+        <h1 className="text-[calc(1rem+2vw)] font-playfair">
+          Hi <span className="">{session?.user?.name?.split(" ")[0]}</span>!
         </h1>
-        <p>Plan your getaway without the guesswork.</p>
+        <p className="text-[calc(1rem+0.5vw)] mt-4 font-lato ">
+          Ready to switch on your <span className="italic">out-of-office</span>{" "}
+          ? Let's plan your getaway without the guesswork.
+        </p>
+        <TripForm />
       </div>
-      <TripForm />
     </div>
   );
 };

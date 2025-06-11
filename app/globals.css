@@ -114,12 +114,21 @@
 
 :root {
   --font-handwritten: 'Shadows_Into_Light', sans-serif;
+  --font-playfair:"Playfair_Display";
   --background: #050404;
   --foreground: #ffffff;
 }
 
 .font-handwritten {
   font-family: var(--font-handwritten);
+}
+
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-lato {
+  font-family: var(--font-lato);
 }
 
 @layer base {

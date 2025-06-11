@@ -36,7 +36,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
 
   if (!loggedInUser) throw new Error("User not found");
 
-  const prompt = `Generate a detailed itinenary for  ${destination} from ${start_date} to ${end_date} for a resident of ${
+  const prompt = `Generate a detailed itinerary for  ${destination} from ${start_date} to ${end_date} for a resident of ${
     loggedInUser.nationality
   }. The budget should be within ${budget}  ${
     loggedInUser.currency
@@ -44,7 +44,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     travel_style && `The travel style of the planner is ${travel_style}.`
   } Incorporate interests of the planner which are ${
     interests || "food, rare attractions"
-  } while planning each day and adding the attractions. Give a detailed summary of the day incorporating the interests. Also add suggested accomodations according to travel type. Check if the ${destination} is in ${
+  } while planning each day and adding the attractions. Give a detailed summary of the day incorporating the interests which inverts typical tourist patterns. Also add suggested accomodations, transportation, food and activities according to ${travel_style} travel style. Check if the ${destination} is in ${
     loggedInUser.nationality
   }, if yes do not add basic_info; else add basic_info like currency, exchange rate, sim card details, useful apps, emergency contacts and if visa is required. Add a budget breakdown in ${
     loggedInUser.currency
@@ -86,7 +86,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const itineraries = JSON.parse(cleanedText);
 
-    await db.trip.create({
+    const trip = await db.trip.create({
       data: {
         userId: loggedInUser.id,
         trip_name: itineraries.trip_title,
@@ -101,10 +101,10 @@ export async function generateAndSaveTripDetails(tripData: any) {
         itineraries,
       },
     });
-    return { success: true, itineraries };
+    return { success: true, id: trip.id };
   } catch (error) {
-    console.error("Error generating itinenary", error);
-    throw new Error("Failed to generate itinenary");
+    console.error("Error generating itinerary", error);
+    throw new Error("Failed to generate itinerary");
   }
 }
 
@@ -138,5 +138,44 @@ export async function getTrips() {
   } catch (error) {
     console.error("Error fetching trips", error);
     throw new Error("Failed to fetch trips");
+  }
+}
+
+export async function getTrip(tripId: string) {
+  const session = await auth();
+
+  const user = session?.user;
+
+  if (!user || !user.email) {
+    throw new Error("Unauthorized");
+  }
+
+  const loggedInUser = await db.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (!loggedInUser) throw new Error("User not found");
+
+  try {
+    const trip = await db.trip.findUnique({
+      where: {
+        userId: loggedInUser.id,
+        id: tripId,
+      },
+    });
+
+    if (trip) {
+      return {
+        success: true,
+        trip,
+      };
+    } else {
+      throw new Error("Failed to fetch trip");
+    }
+  } catch (error) {
+    console.error("Error fetching trip", error);
+    throw new Error("Failed to fetch trip");
   }
 }

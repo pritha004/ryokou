@@ -114,11 +114,11 @@ export default function HeroSection() {
       </div>
 
       <div className="relative flex flex-col items-center justify-center h-full text-center px-4 pointer-events-none">
-        <h1 className="text-[calc(1rem+6vw)] md:text-[calc(1rem+8vw)] font-bold z-0">
+        <h1 className="text-[calc(1rem+6vw)] md:text-[calc(1rem+8vw)] font-bold z-0 font-playfair">
           RYOKOU
         </h1>
 
-        <p className="text-md md:text-lg text-gray-200 font-extralight mb-8 max-w-xl ">
+        <p className="text-md md:text-lg xl:text-xl text-gray-200 font-extralight mb-8 max-w-xl font-lato">
           Travel planning made effortless with intelligent curation.
         </p>
 

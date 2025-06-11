@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
-import { generateAndSaveTripDetails } from "@/actions/itinenary";
+import { generateAndSaveTripDetails } from "@/actions/itinerary";
 
 const TripForm = () => {
   const router = useRouter();
@@ -49,20 +49,20 @@ const TripForm = () => {
         ...values,
       });
     } catch (error) {
-      console.error("Itinenary generation error:", error);
+      console.error("Itinerary generation error:", error);
     }
   };
 
   useEffect(() => {
     if (tripResult?.success && !tripLoading) {
       toast.success("Trip generated successfully!");
-      router.push("/trip-plan");
+      router.push(`/trip-plan?id=${tripResult.id}`);
       router.refresh();
     }
   }, [tripResult, tripLoading]);
 
   return (
-    <div className="mt-12 flex justify-center">
+    <div className="mt-8 flex justify-center font-lato">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 sm:grid-cols-2 gap-2 space-x-8 space-y-4"
@@ -173,13 +173,14 @@ const TripForm = () => {
             {tripLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Generating...
+                <span className="font-extrabold">Generating Itinerary</span>
               </>
             ) : (
-              "Submit"
+              <span className="font-extrabold">Submit</span>
             )}
           </Button>
         </div>
+        <div></div>
       </form>
     </div>
   );

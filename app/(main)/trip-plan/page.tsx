@@ -1,13 +1,22 @@
-import { getUserProfileCompleteStatus } from "@/actions/user";
-import { redirect } from "next/navigation";
+import { getTrip } from "@/actions/itinerary";
+import BentoGrid from "./_components/bento-grid";
 
-const TripPlan = async () => {
-  const { isProfileComplete }: any = await getUserProfileCompleteStatus();
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-  if (!isProfileComplete) {
-    redirect("/complete-profile");
+const TripPlan = async ({ searchParams }: Props) => {
+  const tripId = (await searchParams).id;
+  let tripDetails: { success: boolean; trip: any } = {
+    success: false,
+    trip: null,
+  };
+
+  if (tripId && typeof tripId == "string") {
+    tripDetails = await getTrip(tripId);
   }
-  return <div>TripPlan</div>;
+
+  return <BentoGrid tripDetails={tripDetails.trip} />;
 };
 
 export default TripPlan;
