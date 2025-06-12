@@ -3,7 +3,6 @@
 import { auth } from "@/auth";
 import db from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { tripFormSchema } from "@/app/lib/schema";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -44,9 +43,13 @@ export async function generateAndSaveTripDetails(tripData: any) {
     travel_style && `The travel style of the planner is ${travel_style}.`
   } Incorporate interests of the planner which are ${
     interests || "food, rare attractions"
-  } while planning each day and adding the attractions. Give a detailed summary of the day incorporating the interests which inverts typical tourist patterns. Also add suggested accomodations, transportation, food and activities according to ${travel_style} travel style. Check if the ${destination} is in ${
+  } while planning each day and adding the attractions. Give a detailed summary of the day incorporating the interests. Also add suggested accomodations, transportation, food and activities according to ${travel_style} travel style. Check if the ${destination} is a place in ${
     loggedInUser.nationality
-  }, if yes do not add basic_info; else add basic_info like currency, exchange rate, sim card details, useful apps, emergency contacts and if visa is required. Add a budget breakdown in ${
+  }, if yes do not add basic_info. If ${destination} is a place outside ${
+    loggedInUser.nationality
+  } add basic_info like currency, exchange rate, sim card details with few options, useful apps, emergency contacts. If ${destination} is a place outside ${
+    loggedInUser.nationality
+  },set "visa_required" to true else false. Add a budget breakdown in ${
     loggedInUser.currency
   }.
     
@@ -58,7 +61,8 @@ export async function generateAndSaveTripDetails(tripData: any) {
           "title": "string",
           "summary": "string"
           "transportation": "string",
-          "attractions":"string"
+          "attractions":"string",
+          "accomodations":"string"
         }
     },
 

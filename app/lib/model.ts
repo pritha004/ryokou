@@ -3,6 +3,7 @@ export interface ItineraryDay {
   summary: string;
   attractions: string;
   transportation: string;
+  accomodations: string;
 }
 
 export interface BudgetBreakdown {
