@@ -5,16 +5,19 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const handwritten = Shadows_Into_Light({
+  subsets: ["latin"],
   weight: "400",
   variable: "--font-handwritten",
 });
 
 const playfair = Playfair_Display({
+  subsets: ["latin"],
   weight: "600",
   variable: "--font-playfair",
 });
 
 const lato = Lato({
+  subsets: ["latin"],
   weight: "300",
   style: "normal",
   variable: "--font-lato",
