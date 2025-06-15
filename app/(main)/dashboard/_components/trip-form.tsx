@@ -10,6 +10,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 
@@ -22,6 +31,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { generateAndSaveTripDetails } from "@/actions/itinerary";
+import { travelStyles } from "@/constants/travelstyle-list";
 
 const TripForm = () => {
   const router = useRouter();
@@ -74,7 +84,9 @@ const TripForm = () => {
             {...register("destination")}
           />
           {errors.destination && (
-            <p className="text-sm text-red-500">{errors.destination.message}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {errors.destination.message}
+            </p>
           )}
         </div>
         <div>
@@ -114,7 +126,7 @@ const TripForm = () => {
                     mode="range"
                     defaultMonth={field.value?.from}
                     selected={{
-                      from: field.value?.from!,
+                      from: field.value?.from,
                       to: field.value?.to,
                     }}
                     onSelect={field.onChange}
@@ -124,7 +136,19 @@ const TripForm = () => {
             )}
           />
           {errors.dateRange && (
-            <p className="text-sm text-red-500">{errors.dateRange.message}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {errors.dateRange.message}
+            </p>
+          )}
+          {errors.dateRange?.from && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.dateRange.from.message}
+            </p>
+          )}
+          {errors.dateRange?.to && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.dateRange.to.message}
+            </p>
           )}
         </div>
         <div>
@@ -134,7 +158,7 @@ const TripForm = () => {
             {...register("number_of_persons")}
           />
           {errors.number_of_persons && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-500 mt-1">
               {errors.number_of_persons.message}
             </p>
           )}
@@ -147,14 +171,30 @@ const TripForm = () => {
             {...register("budget")}
           />
           {errors.budget && (
-            <p className="text-sm text-red-500">{errors.budget.message}</p>
+            <p className="text-sm text-red-500 mt-1">{errors.budget.message}</p>
           )}
         </div>
         <div>
-          <Input
-            id="travel_style"
-            placeholder="Your travel style, e.g. adventure"
-            {...register("travel_style")}
+          <Controller
+            control={control}
+            name="travel_style"
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a travel style" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Travel Style</SelectLabel>
+                    {travelStyles.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
           />
         </div>
         <div className="text-center">

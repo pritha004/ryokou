@@ -17,15 +17,15 @@ const ItinenaryCard = ({ date, itinerary }: Prop) => {
     itinerary;
   return (
     <AccordionItem value={date}>
-      <AccordionTrigger className="cursor-pointer font-lato text-lg italic hover:no-underline font-extrabold">
+      <AccordionTrigger className="cursor-pointer text-lg italic hover:no-underline font-medium">
         {date}: {title}
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-4 font-lato text-gray-300 p-4 text-justify">
+      <AccordionContent className="flex flex-col font-lato text-gray-300 p-4 text-justify">
         <div>
           <div className="">
             <p className="text-base">{summary}</p>
           </div>
-          <div className="mt-2 p-2 space-y-2">
+          <div className="mt-4 p-2 space-y-2">
             {accomodations && (
               <p className="flex gap-4 text-base">
                 <span>

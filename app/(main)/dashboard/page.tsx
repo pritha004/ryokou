@@ -13,7 +13,7 @@ const Dashboard = async () => {
   const session = await auth();
 
   return (
-    <div className="w-full min-h-screen p-4 border-2 border-red-400">
+    <div className="w-full min-h-screen p-4">
       <div className="mt-4 p-4">
         <h1 className="text-[calc(1rem+2vw)] font-playfair">
           Hi <span className="">{session?.user?.name?.split(" ")[0]}</span>!

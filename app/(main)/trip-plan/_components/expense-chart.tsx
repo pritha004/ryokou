@@ -113,16 +113,16 @@ const ExpenseChart = ({ budget }: Props) => {
     value,
   }));
   return (
-    <ResponsiveContainer width={"100%"} height={280}>
+    <ResponsiveContainer width={"100%"} height={240}>
       <PieChart>
         <Pie
           data={budgetData}
           cx={"50%"}
           cy={"50%"}
-          innerRadius={60}
+          innerRadius={40}
           labelLine={false}
           label={renderCustomLabel}
-          outerRadius={100}
+          outerRadius={80}
           dataKey="value"
         >
           {budgetData.map((entry, index) => (

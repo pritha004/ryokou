@@ -3,7 +3,12 @@
 import { ItineraryDay, TripDetails } from "@/app/lib/model";
 import { motion } from "framer-motion";
 import ItineraryCard from "./itinerary-card";
-import { Accordion } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ExpenseChart from "./expense-chart";
 import {
   WalletCards,
@@ -67,9 +72,41 @@ const BentoGrid = ({ tripDetails }: any) => {
           >
             <div className="w-full">
               <ExpenseChart budget={itineraries.budget_breakdown} />
-              <h1 className="text-base text-center font-lato uppercase mb-2">
-                Expenses
-              </h1>
+
+              <div>
+                <Accordion type="multiple" className="w-full">
+                  <AccordionItem value={"budget"}>
+                    <AccordionTrigger className="cursor-pointer text-lg italic hover:no-underline font-medium">
+                      Budget Breakdown
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4  text-gray-300 p-4 text-justify">
+                      <div>
+                        <div className="font-lato">
+                          <table className="min-w-full ">
+                            <tbody>
+                              {Object.entries(itineraries.budget_breakdown).map(
+                                ([key, value]) => (
+                                  <tr key={key} className="border-b">
+                                    <td className="px-4 py-2 capitalize">
+                                      {key}
+                                    </td>
+                                    <td className="px-4 py-2">{value}</td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="italic text-xs font-bold">
+                          (All expenses are in your set currency.)
+                        </span>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
             </div>
           </motion.div>
 
@@ -83,7 +120,7 @@ const BentoGrid = ({ tripDetails }: any) => {
                 transition={{ delay: 0, duration: 0.5 }}
               >
                 <div className="w-full">
-                  <h1 className="text-base text-center font-lato uppercase">
+                  <h1 className="text-lg italic hover:no-underline font-medium">
                     Need-to-Know Basics
                   </h1>
                   <div className="p-2 h-full w-full space-y-4 font-lato text-gray-300">

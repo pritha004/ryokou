@@ -3,6 +3,7 @@ import { Shadows_Into_Light, Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PreloaderWrapper } from "@/context/preloader-wrapper";
 
 const handwritten = Shadows_Into_Light({
   subsets: ["latin"],
@@ -44,8 +45,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main>{children}</main>
-          <Toaster richColors />
+          <PreloaderWrapper>
+            <main>{children}</main>
+            <Toaster richColors />
+          </PreloaderWrapper>
         </ThemeProvider>
       </body>
     </html>

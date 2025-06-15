@@ -13,6 +13,7 @@ import Link from "next/link";
 import { geoUrl, locations } from "@/constants/hero-locations";
 import { Plane } from "lucide-react";
 import { useImagePreloader } from "@/hooks/use-imagepreloader";
+import { Skeleton } from "./ui/skeleton";
 
 export default function HeroSection() {
   const [hoveredLocation, setHoveredLocation] = useState<
@@ -24,15 +25,7 @@ export default function HeroSection() {
     setMousePos({ x: event.clientX, y: event.clientY });
   };
 
-  const isLoaded = useImagePreloader(locations.map((loc) => loc.image));
-
-  if (!isLoaded) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center bg-white">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
     <section
@@ -70,6 +63,9 @@ export default function HeroSection() {
               coordinates={location.coords}
               onMouseEnter={() => setHoveredLocation(location)}
               onMouseLeave={() => setHoveredLocation(null)}
+              onTouchStart={() => setHoveredLocation(location)}
+              onTouchEnd={() => setHoveredLocation(null)}
+              onTouchCancel={() => setHoveredLocation(null)}
               className="cursor-pointer"
             >
               <motion.circle
@@ -97,12 +93,16 @@ export default function HeroSection() {
             exit={{ opacity: 0, scale: 0.95 }}
           >
             <div className="relative h-[160px] w-[110px] md:h-[200px] md:w-[150px] overflow-hidden">
+              {!isImageLoaded && (
+                <Skeleton className="absolute inset-0 h-full w-full" />
+              )}
               <Image
                 src={hoveredLocation.image}
                 alt={hoveredLocation.name}
                 fill
                 className="object-cover"
                 priority
+                onLoad={() => setIsImageLoaded(true)}
               />
             </div>
 

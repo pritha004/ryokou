@@ -32,27 +32,18 @@ export function AppSidebar({ user }: any) {
       <Sidebar collapsible="icon" className="hidden md:flex">
         <SidebarContent className="p-2">
           <SidebarMenu>
-            <span className="flex justify-end">
+            <span className="flex justify-between items-center">
+              {open && (
+                <span className="flex px-2 items-center text-xl font-playfair py-4">
+                  RYOKOU
+                </span>
+              )}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Menu onClick={toggleSidebar} />
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </span>
-            {open && (
-              <span className="flex gap-2 items-center text-lg py-4">
-                <Link href="/">
-                  <Image
-                    src="/images/logo.svg"
-                    width={50}
-                    height={50}
-                    className="h-10 py-1 w-auto object-contain"
-                    alt="Ryokou Logo"
-                  />
-                </Link>
-                Ryokou
-              </span>
-            )}
 
             {navLinks.map((item) => (
               <SidebarMenuItem key={item.title}>
