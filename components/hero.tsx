@@ -11,9 +11,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { geoUrl, locations } from "@/constants/hero-locations";
-import { Plane } from "lucide-react";
 import { useImagePreloader } from "@/hooks/use-imagepreloader";
 import { Skeleton } from "./ui/skeleton";
+import { Plane } from "lucide-react";
 
 export default function HeroSection() {
   const [hoveredLocation, setHoveredLocation] = useState<
@@ -25,7 +25,14 @@ export default function HeroSection() {
     setMousePos({ x: event.clientX, y: event.clientY });
   };
 
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
+  const handleImageLoad = (src: string) => {
+    setLoadedImages((prev) => ({
+      ...prev,
+      [src]: true,
+    }));
+  };
 
   return (
     <section
@@ -63,9 +70,6 @@ export default function HeroSection() {
               coordinates={location.coords}
               onMouseEnter={() => setHoveredLocation(location)}
               onMouseLeave={() => setHoveredLocation(null)}
-              onTouchStart={() => setHoveredLocation(location)}
-              onTouchEnd={() => setHoveredLocation(null)}
-              onTouchCancel={() => setHoveredLocation(null)}
               className="cursor-pointer"
             >
               <motion.circle
@@ -93,7 +97,7 @@ export default function HeroSection() {
             exit={{ opacity: 0, scale: 0.95 }}
           >
             <div className="relative h-[160px] w-[110px] md:h-[200px] md:w-[150px] overflow-hidden">
-              {!isImageLoaded && (
+              {!loadedImages[hoveredLocation.image] && (
                 <Skeleton className="absolute inset-0 h-full w-full" />
               )}
               <Image
@@ -102,13 +106,13 @@ export default function HeroSection() {
                 fill
                 className="object-cover"
                 priority
-                onLoad={() => setIsImageLoaded(true)}
+                onLoad={() => handleImageLoad(hoveredLocation.image)}
               />
             </div>
 
-            <p className="text-center font-handwritten text-xs md:text-sm my-1 md:my-2 px-2">
+            <div className="text-center font-handwritten text-xs md:text-sm my-1 md:my-2 px-2">
               {hoveredLocation.trip}
-            </p>
+            </div>
           </motion.div>
         )}
       </div>

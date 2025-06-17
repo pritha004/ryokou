@@ -8,7 +8,7 @@ export const navLinks = [
   },
   {
     title: "Saved Trips",
-    url: "/",
+    url: "/saved-trips",
     icon: Bookmark,
   },
 ];

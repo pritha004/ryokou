@@ -39,7 +39,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     loggedInUser.nationality
   }. The budget should be within ${budget}  ${
     loggedInUser.currency
-  } for ${number_of_persons} people. Add dates as keys in itinenaries. Create a short and fun trip_title with all the details available. ${
+  } for ${number_of_persons} people. Add dates as keys in itinenaries. Create a short and fun "trip_title". ${
     travel_style && `The travel style of the planner is ${travel_style}.`
   } Incorporate interests of the planner which are ${
     interests || "food, rare attractions"
@@ -133,6 +133,10 @@ export async function getTrips() {
     const trips = await db.trip.findMany({
       where: {
         userId: loggedInUser.id,
+      },
+      select: {
+        id: true,
+        trip_name: true,
       },
     });
     return {
