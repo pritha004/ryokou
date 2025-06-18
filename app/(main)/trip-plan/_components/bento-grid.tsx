@@ -42,9 +42,8 @@ const BentoGrid = ({ tripDetails }: any) => {
             <div className="w-full mt-4 space-y-4">
               <Accordion
                 type="multiple"
-                defaultValue={Object.entries(itineraries.itinenaries).map(
-                  ([date, value]) => date
-                )}
+                defaultValue={Object.entries(itineraries.itinenaries)
+                .map(([date, value]) => date)}
                 className="w-full"
               >
                 {itineraries &&

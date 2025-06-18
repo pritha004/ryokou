@@ -25,6 +25,7 @@ model Trip {
   userId            String
   user              User        @relation(fields: [userId], references: [id])
   trip_name         String
+  image             String?
   destination       String
   start_date        DateTime
   end_date          DateTime

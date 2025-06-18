@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import db from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getDestinationImage } from "./destination-image";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -16,6 +17,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     budget,
     number_of_persons,
   } = tripData;
+
   const start_date = dateRange.from;
   const end_date = dateRange.to;
 
@@ -35,11 +37,11 @@ export async function generateAndSaveTripDetails(tripData: any) {
 
   if (!loggedInUser) throw new Error("User not found");
 
-  const prompt = `Generate a detailed itinerary for  ${destination} from ${start_date} to ${end_date} for a resident of ${
+  const prompt = `Generate a detailed itinerary for  ${destination} from ${start_date} to ${end_date} in ascending order of date for a resident of ${
     loggedInUser.nationality
   }. The budget should be within ${budget}  ${
     loggedInUser.currency
-  } for ${number_of_persons} people. Add dates as keys in itinenaries. Create a short and fun "trip_title". ${
+  } for ${number_of_persons} people. Add dates as keys in itinenaries. Create a short and fun "trip_title". Give me a publicly available, copyright-free image URL of ${destination} that is free to use commercially and without attribution and store in "image_url". ${
     travel_style && `The travel style of the planner is ${travel_style}.`
   } Incorporate interests of the planner which are ${
     interests || "food, rare attractions"
@@ -56,6 +58,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     Return the response in this JSON format only, no additional text:
     {
       "trip_title":"string",
+      "image_url":"string",
       "itinenaries": {
         "date":{
           "title": "string",
@@ -64,14 +67,14 @@ export async function generateAndSaveTripDetails(tripData: any) {
           "attractions":"string",
           "accomodations":"string"
         }
-    },
+      },
 
     "basic_info":{
         "currency":"string",
         "sim_card_details":"string",
         "useful_apps":"string",
         "emergency_contacts":"string"
-    },
+      },
 
     "visa_required":"boolean",
     "budget_breakdown":{
@@ -80,7 +83,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
         "transportation":"number",
         "activities":"number",
         "misc":"number"
-    }
+      }
 }`;
 
   try {
@@ -90,10 +93,13 @@ export async function generateAndSaveTripDetails(tripData: any) {
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const itineraries = JSON.parse(cleanedText);
 
+    const image = await getDestinationImage(destination);
+
     const trip = await db.trip.create({
       data: {
         userId: loggedInUser.id,
         trip_name: itineraries.trip_title,
+        image,
         destination,
         start_date,
         end_date,
@@ -137,6 +143,8 @@ export async function getTrips() {
       select: {
         id: true,
         trip_name: true,
+        image: true,
+        createdAt: true,
       },
     });
     return {
