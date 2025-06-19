@@ -42,8 +42,9 @@ const BentoGrid = ({ tripDetails }: any) => {
             <div className="w-full mt-4 space-y-4">
               <Accordion
                 type="multiple"
-                defaultValue={Object.entries(itineraries.itinenaries)
-                .map(([date, value]) => date)}
+                defaultValue={Object.entries(itineraries.itinenaries).map(
+                  ([date, value]) => date
+                )}
                 className="w-full"
               >
                 {itineraries &&
@@ -180,7 +181,7 @@ const BentoGrid = ({ tripDetails }: any) => {
               </motion.div>
             )}
 
-          <motion.div
+          {/* <motion.div
             className="rounded-lg border border-gray-400 w-full flex items-center justify-center p-4"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -191,7 +192,7 @@ const BentoGrid = ({ tripDetails }: any) => {
                 <Download /> Download Itinerary
               </Button>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </div>

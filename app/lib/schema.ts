@@ -45,8 +45,8 @@ export const tripFormSchema = z.object({
         message: "End date must be after start date.",
       }
     ),
-  travel_style: z.string(),
-  interests: z.string(),
+  travel_style: z.string().optional(),
+  interests: z.string().optional(),
   budget: z.preprocess(
     (val) => {
       if (typeof val === "string" && val.trim() === "") return undefined;

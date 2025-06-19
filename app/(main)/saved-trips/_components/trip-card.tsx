@@ -1,26 +1,55 @@
 "use client";
 
+import { deleteTrip } from "@/actions/itinerary";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import useFetch from "@/hooks/use-fetch";
 import { motion } from "framer-motion";
-import { Delete, Share, Share2, SquareX, X } from "lucide-react";
+import { Eye, Info, Share2, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ItineraryCardProps {
   tripName: string;
-  date: Date;
   image: string;
+  id: string;
   index: number;
 }
 
 export const ItineraryCard: React.FC<ItineraryCardProps> = ({
   tripName,
-  date,
   image,
+  id,
   index,
 }) => {
-  const [loaded, setLoaded] = useState(false);
+  const router = useRouter();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const {
+    loading: deleteLoading,
+    fn: deleteTripFn,
+    data: deleteResult,
+  } = useFetch(deleteTrip);
+
+  const onDeleteClick = async (e: MouseEvent, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    try {
+      await deleteTripFn(id);
+    } catch (error) {
+      console.error("Itinerary generation error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (deleteResult?.success && !deleteLoading) {
+      toast.success("Trip deleted successfully!");
+      router.refresh();
+    }
+  }, [deleteResult, deleteLoading]);
 
   return (
     <motion.div
@@ -30,26 +59,39 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
       className="flex flex-1 flex-col w-full rounded-md border max-sm:w-full shadow-lg bg-[#000000] border-black"
     >
       <div className="relative overflow-hidden rounded-t-md">
+        {!isLoaded && (
+          <Skeleton className="absolute top-0 left-0 z-10 h-[200px] w-full" />
+        )}
         <Image
           src={image}
           alt={`${tripName}_image`}
           height={200}
           width={200}
-          className="h-[200px] w-full border rounded-t-md object-cover hover:scale-125 hover:transition-all hover:duration-200 hover:delay-75 ease-linear"
+          className={`h-[200px] w-full border rounded-t-md object-cover hover:scale-125 hover:transition-all hover:duration-200 hover:delay-75 ease-linear ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => {
+            setIsLoaded(true);
+          }}
         />
       </div>
 
-      <div className="flex justify-between mt-2 p-2">
+      <div className="flex justify-between mt-2 p-2 gap-2">
         <h3 className="text-md text-center leading-normal font-semibold font-lato">
           {tripName}
         </h3>
         <div className="m-1 text-center font-montserrat leading-normal flex justify-center gap-2">
-          <Button size={"sm"} className="cursor-pointer">
+          <Button
+            size={"sm"}
+            className="cursor-pointer"
+            onClick={(e) => onDeleteClick(e, id)}
+          >
             <X />
           </Button>
-          <Button size={"sm"} className="cursor-pointer">
+          {/* <Button size={"sm"} className="cursor-pointer">
             <Share2 />
-          </Button>
+          </Button> */}
         </div>
       </div>
     </motion.div>

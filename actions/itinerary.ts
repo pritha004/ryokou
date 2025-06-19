@@ -195,3 +195,41 @@ export async function getTrip(tripId: string) {
     throw new Error("Failed to fetch trip");
   }
 }
+
+export async function deleteTrip(tripId: string) {
+  const session = await auth();
+
+  const user = session?.user;
+
+  if (!user || !user.email) {
+    throw new Error("Unauthorized");
+  }
+
+  const loggedInUser = await db.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (!loggedInUser) throw new Error("User not found");
+
+  try {
+    const trip = await db.trip.delete({
+      where: {
+        userId: loggedInUser.id,
+        id: tripId,
+      },
+    });
+
+    if (trip) {
+      return {
+        success: true,
+      };
+    } else {
+      throw new Error("Failed to delete trip");
+    }
+  } catch (error) {
+    console.error("Error deleting trip", error);
+    throw new Error("Failed to delete trip");
+  }
+}
