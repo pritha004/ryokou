@@ -1,9 +1,11 @@
-import { getUserProfileCompleteStatus } from "@/actions/user";
+import { checkUser, getUserProfileCompleteStatus } from "@/actions/user";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import TripForm from "./_components/trip-form";
 
 const Dashboard = async () => {
+  const user = await checkUser();
+
   const { isProfileComplete }: any = await getUserProfileCompleteStatus();
 
   if (!isProfileComplete) {
