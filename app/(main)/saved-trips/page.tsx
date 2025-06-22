@@ -1,4 +1,4 @@
-import { getTrips } from "@/actions/itinerary";
+import { getTrips } from "@/actions/trip";
 import React from "react";
 import TripList from "./_components/trip-list";
 

@@ -24,7 +24,7 @@ export interface BasicInfo {
 export interface ItineraryData {
   basic_info?: BasicInfo;
   trip_title: string;
-  itinenaries: {
+  itineraries: {
     [date: string]: ItineraryDay;
   };
   visa_required: boolean;
@@ -35,6 +35,7 @@ export interface TripDetails {
   id: string;
   userId: string;
   trip_name: string;
+  image: string;
   destination: string;
   start_date: Date;
   end_date: Date;

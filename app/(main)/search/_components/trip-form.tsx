@@ -30,7 +30,7 @@ import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
-import { generateAndSaveTripDetails } from "@/actions/itinerary";
+import { generateAndSaveTripDetails } from "@/actions/trip";
 import { travelStyles } from "@/constants/travelstyle-list";
 
 const TripForm = () => {

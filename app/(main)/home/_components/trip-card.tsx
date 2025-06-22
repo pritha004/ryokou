@@ -1,55 +1,28 @@
 "use client";
 
-import { deleteTrip } from "@/actions/trip";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import useFetch from "@/hooks/use-fetch";
 import { motion } from "framer-motion";
-import { Eye, Info, Share2, X } from "lucide-react";
 import Image from "next/image";
-import { MouseEvent, useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
+
 import { useRouter } from "next/navigation";
 
 interface ItineraryCardProps {
   tripName: string;
   image: string;
-  id: string;
   index: number;
+  destination: string;
 }
 
 export const ItineraryCard: React.FC<ItineraryCardProps> = ({
   tripName,
   image,
-  id,
   index,
+  destination,
 }) => {
   const router = useRouter();
 
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const {
-    loading: deleteLoading,
-    fn: deleteTripFn,
-    data: deleteResult,
-  } = useFetch(deleteTrip);
-
-  const onDeleteClick = async (e: MouseEvent, id: string) => {
-    e.stopPropagation();
-    e.preventDefault();
-    try {
-      await deleteTripFn(id);
-    } catch (error) {
-      console.error("Itinerary generation error:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (deleteResult?.success && !deleteLoading) {
-      toast.success("Trip deleted successfully!");
-      router.refresh();
-    }
-  }, [deleteResult, deleteLoading]);
 
   return (
     <motion.div
@@ -81,18 +54,6 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
         <h3 className="text-md text-center leading-normal font-semibold font-lato">
           {tripName}
         </h3>
-        <div className="m-1 text-center font-montserrat leading-normal flex justify-center items-center gap-2">
-          <Button
-            size={"sm"}
-            className="cursor-pointer"
-            onClick={(e) => onDeleteClick(e, id)}
-          >
-            <X />
-          </Button>
-          {/* <Button size={"sm"} className="cursor-pointer">
-            <Share2 />
-          </Button> */}
-        </div>
       </div>
     </motion.div>
   );

@@ -1,4 +1,4 @@
-import { getTrip } from "@/actions/itinerary";
+import { getTrip } from "@/actions/trip";
 import BentoGrid from "./_components/bento-grid";
 
 const TripPlan = async ({ searchParams }: any) => {

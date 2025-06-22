@@ -12,7 +12,7 @@ type Prop = {
   itinerary: ItineraryDay;
 };
 
-const ItinenaryCard = ({ date, itinerary }: Prop) => {
+const ItineraryCard = ({ date, itinerary }: Prop) => {
   const { title, summary, attractions, transportation, accomodations } =
     itinerary;
   return (
@@ -57,4 +57,4 @@ const ItinenaryCard = ({ date, itinerary }: Prop) => {
   );
 };
 
-export default ItinenaryCard;
+export default ItineraryCard;

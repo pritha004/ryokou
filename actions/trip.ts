@@ -41,7 +41,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     loggedInUser.nationality
   }. The budget should be within ${budget}  ${
     loggedInUser.currency
-  } for ${number_of_persons} people. Add dates as keys in itinenaries. Create a short and fun "trip_title". Give me a publicly available, copyright-free image URL of ${destination} that is free to use commercially and without attribution and store in "image_url". ${
+  } for ${number_of_persons} people. Add dates as keys in itineraries. Create a short and fun "trip_title". Give me a publicly available, copyright-free image URL of ${destination} that is free to use commercially and without attribution and store in "image_url". ${
     travel_style && `The travel style of the planner is ${travel_style}.`
   } Incorporate interests of the planner which are ${
     interests || "food, rare attractions"
@@ -59,7 +59,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
     {
       "trip_title":"string",
       "image_url":"string",
-      "itinenaries": {
+      "itineraries": {
         "date":{
           "title": "string",
           "summary": "string"
@@ -84,7 +84,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
         "activities":"number",
         "misc":"number"
       }
-}`;
+  }`;
 
   try {
     const result = await model.generateContent(prompt);
@@ -231,5 +231,74 @@ export async function deleteTrip(tripId: string) {
   } catch (error) {
     console.error("Error deleting trip", error);
     throw new Error("Failed to delete trip");
+  }
+}
+
+export async function generateRecommendationTrips(
+  type: "HISTORY" | "SURPRISE",
+  numberOfTrips: number
+) {
+  const session = await auth();
+
+  const user = session?.user;
+
+  if (!user || !user.email) {
+    throw new Error("Unauthorized");
+  }
+
+  let prompt = "";
+
+  if (type === "HISTORY") {
+    const trips = await getTrips();
+
+    if (trips.trips.length <= 0) {
+      return { success: true, trips: [] };
+    }
+
+    const tripsHistory = trips.trips.map((trip) => trip.trip_name);
+
+    prompt = `
+    Generate ${numberOfTrips} trips name for recommendation based on the destination and interests mentioned in the user's history trips provided as ${tripsHistory}.
+
+    Return the response in this JSON format only, no additional text:
+    [{
+      "trip_title":"string",
+      "destination":"string"
+    },{
+      "trip_title":"string",
+      "destination":"string"
+    }]`;
+  } else {
+    prompt = `
+    Generate a unique and surprising travel destination that most people wouldn’t think of, but offers a perfect mix of adventure, culture, food, and natural beauty. Keep it off the beaten path and ideal for a memorable, unexpected getaway.
+
+    Return the response in this JSON format only, no additional text:
+    [{
+      "trip_title":"string",
+      "destination":"string"
+    }]`;
+  }
+
+  try {
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    const text = response.text();
+    const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+    const trips = JSON.parse(cleanedText);
+
+    const updatedTrips = await Promise.all(
+      trips.map(async (trip: { trip_title: string; destination: string }) => {
+        const image = await getDestinationImage(trip.destination);
+        return {
+          ...trip,
+          image,
+        };
+      })
+    );
+
+    return { success: true, trips: updatedTrips };
+  } catch (error) {
+    console.error("Error generating recommended trips", error);
+    throw new Error("Failed to generate recommended trips");
   }
 }

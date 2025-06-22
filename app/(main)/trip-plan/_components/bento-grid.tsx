@@ -18,15 +18,37 @@ import {
   Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const BentoGrid = ({ tripDetails }: any) => {
   const tripData: TripDetails = tripDetails;
 
-  const { itineraries } = tripData;
+  const { itineraries, image, trip_name } = tripData;
 
   return (
-    <div className="w-full min-h-screen md:max-h-screen p-4 mb-12 md:mb-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full">
+    <div className="w-full min-h-screen md:max-h-screen mb-12 md:mb-0">
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.5,
+          delay: 0.1,
+          ease: "easeInOut",
+        }}
+        className="relative flex flex-col justify-center items-center gap-4 w-full h-screen text-center"
+      >
+        <Image
+          src={image}
+          alt="Background"
+          fill
+          className="object-cover z-0"
+          priority
+        />
+        <h1 className="z-20 font-bold px-2 flex items-center text-[calc(1rem+6vw)] text-white uppercase font-serif drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+          {trip_name}
+        </h1>
+      </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 p-4 gap-4 w-full h-full">
         {/* Itinerary */}
         <motion.div
           className="rounded-lg border-[1px] border-gray-400 w-full h-full min-h-[300px] flex md:overflow-y-auto"
@@ -42,13 +64,13 @@ const BentoGrid = ({ tripDetails }: any) => {
             <div className="w-full mt-4 space-y-4">
               <Accordion
                 type="multiple"
-                defaultValue={Object.entries(itineraries.itinenaries).map(
+                defaultValue={Object.entries(itineraries.itineraries).map(
                   ([date, value]) => date
                 )}
                 className="w-full"
               >
                 {itineraries &&
-                  Object.entries(itineraries.itinenaries).map(
+                  Object.entries(itineraries.itineraries).map(
                     ([date, details]: [string, ItineraryDay]) => (
                       <ItineraryCard
                         key={date}
