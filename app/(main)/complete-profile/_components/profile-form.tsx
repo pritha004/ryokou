@@ -82,7 +82,7 @@ const CompleteProfileForm = () => {
   useEffect(() => {
     if (updateResult?.success && !updateLoading) {
       toast.success("Profile completed successfully!");
-      router.push("/dashboard");
+      router.push("/home");
       router.refresh();
     }
   }, [updateResult, updateLoading]);

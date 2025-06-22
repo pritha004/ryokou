@@ -6,7 +6,7 @@ const CompleteProfile = async () => {
   const { isProfileComplete }: any = await getUserProfileCompleteStatus();
 
   if (isProfileComplete) {
-    redirect("/dashboard");
+    redirect("/home");
   }
 
   return <CompleteProfileForm />;

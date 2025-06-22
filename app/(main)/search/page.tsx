@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import TripForm from "./_components/trip-form";
 
-const Dashboard = async () => {
+const Search = async () => {
   const user = await checkUser();
 
   const { isProfileComplete }: any = await getUserProfileCompleteStatus();
@@ -30,4 +30,4 @@ const Dashboard = async () => {
   );
 };
 
-export default Dashboard;
+export default Search;

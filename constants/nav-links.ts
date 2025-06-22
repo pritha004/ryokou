@@ -1,10 +1,15 @@
-import { Home, Bookmark } from "lucide-react";
+import { Home, Bookmark, Search } from "lucide-react";
 
 export const navLinks = [
   {
     title: "Home",
-    url: "/dashboard",
+    url: "/home",
     icon: Home,
+  },
+  {
+    title: "Search",
+    url: "/search",
+    icon: Search,
   },
   {
     title: "Saved Trips",

@@ -3,7 +3,7 @@ import LogInComp from "./_components/login-comp";
 
 const signInFn = async () => {
   "use server";
-  await signIn("google", { redirectTo: "/dashboard" });
+  await signIn("google", { redirectTo: "/home" });
 };
 
 export default function LogIn() {

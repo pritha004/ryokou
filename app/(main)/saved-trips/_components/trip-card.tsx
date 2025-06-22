@@ -77,11 +77,11 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
         />
       </div>
 
-      <div className="flex justify-between mt-2 p-2 gap-2">
+      <div className="flex justify-between items-center mt-2 p-2 gap-2">
         <h3 className="text-md text-center leading-normal font-semibold font-lato">
           {tripName}
         </h3>
-        <div className="m-1 text-center font-montserrat leading-normal flex justify-center gap-2">
+        <div className="m-1 text-center font-montserrat leading-normal flex justify-center items-center gap-2">
           <Button
             size={"sm"}
             className="cursor-pointer"

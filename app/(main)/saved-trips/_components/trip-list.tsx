@@ -36,7 +36,7 @@ const TripList = ({ trips }: any) => {
         <div className="flex flex-col gap-4 h-[200px] justify-center items-center italic">
           <p>No trips in your Bucket List. </p>
           <Link
-            href={"/dashboard"}
+            href={"/search"}
             className="border border-white px-4 py-2 rounded-sm hover:bg-white hover:text-black cursor-pointer"
           >
             Let's add one!

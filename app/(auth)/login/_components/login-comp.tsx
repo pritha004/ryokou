@@ -6,7 +6,7 @@ export default async function LogInComp({ signInFn }: any) {
   const user = await checkUser();
 
   if (user) {
-    redirect("/dashboard");
+    redirect("/home");
   }
 
   return (
