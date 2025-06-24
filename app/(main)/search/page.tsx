@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import TripForm from "./_components/trip-form";
 
-const Search = async () => {
+const Search = async ({ searchParams }: any) => {
   const session = await auth();
+
+  const destination = (await searchParams)?.destination ?? "";
 
   return (
     <div className="w-full min-h-screen p-4">
@@ -14,7 +16,7 @@ const Search = async () => {
           Ready to switch on your <span className="italic">out-of-office</span>{" "}
           ? Let's plan your getaway without the guesswork.
         </p>
-        <TripForm />
+        <TripForm destination={destination} />
       </div>
     </div>
   );

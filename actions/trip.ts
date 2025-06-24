@@ -114,7 +114,9 @@ export async function generateAndSaveTripDetails(tripData: any) {
     return { success: true, id: trip.id };
   } catch (error) {
     console.error("Error generating itinerary", error);
-    throw new Error("Failed to generate itinerary");
+    throw new Error(
+      "The AI model is temporarily overloaded. Please try again shortly."
+    );
   }
 }
 

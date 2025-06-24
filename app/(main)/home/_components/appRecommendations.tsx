@@ -25,7 +25,11 @@ const AppRecommendationTrips = async ({ recommendations }: Props) => {
                 },
                 index: number
               ) => (
-                <Link href={`/`} key={index} className="flex flex-1">
+                <Link
+                  href={`/search?destination=${trip.destination}`}
+                  key={index}
+                  className="flex flex-1"
+                >
                   <ItineraryCard
                     tripName={trip.trip_title}
                     image={trip.image}

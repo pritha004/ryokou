@@ -33,7 +33,7 @@ import { useEffect } from "react";
 import { generateAndSaveTripDetails } from "@/actions/trip";
 import { travelStyles } from "@/constants/travelstyle-list";
 
-const TripForm = () => {
+const TripForm = ({ destination }: { destination: string }) => {
   const router = useRouter();
 
   const {
@@ -51,6 +51,9 @@ const TripForm = () => {
     control,
   } = useForm({
     resolver: zodResolver(tripFormSchema),
+    defaultValues: {
+      destination,
+    },
   });
 
   const onSubmit = async (values: any) => {
