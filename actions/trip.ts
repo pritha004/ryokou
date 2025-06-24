@@ -144,6 +144,9 @@ export async function getTrips() {
         id: true,
         trip_name: true,
         image: true,
+        travel_style: true,
+        interests: true,
+        destination: true,
         createdAt: true,
       },
     });
@@ -235,17 +238,9 @@ export async function deleteTrip(tripId: string) {
 }
 
 export async function generateRecommendationTrips(
-  type: "HISTORY" | "SURPRISE",
+  type: "HISTORY" | "SURPRISE" | "APP",
   numberOfTrips: number
 ) {
-  const session = await auth();
-
-  const user = session?.user;
-
-  if (!user || !user.email) {
-    throw new Error("Unauthorized");
-  }
-
   let prompt = "";
 
   if (type === "HISTORY") {
@@ -255,10 +250,29 @@ export async function generateRecommendationTrips(
       return { success: true, trips: [] };
     }
 
-    const tripsHistory = trips.trips.map((trip) => trip.trip_name);
+    const tripsHistory = trips.trips.map(
+      ({ destination, travel_style, interests }) => ({
+        destination,
+        travel_style,
+        interests,
+      })
+    );
 
     prompt = `
-    Generate ${numberOfTrips} trips name for recommendation based on the destination and interests mentioned in the user's history trips provided as ${tripsHistory}.
+    Generate ${numberOfTrips} trips name for recommendation based on the destination, travel_style and interests mentioned in the user's history trips provided in json as ${tripsHistory}.
+    Add a fun title containing the destination.
+
+    Return the response in this JSON format only, no additional text:
+    [{
+      "trip_title":"string",
+      "destination":"string"
+    },{
+      "trip_title":"string",
+      "destination":"string"
+    }]`;
+  } else if (type === "APP") {
+    prompt = `As a passionate travel enthusiast looking for next adventure, suggest the top ${numberOfTrips} must-visit destinations around the world. Please include a mix of nature, culture, history, and unique experiences.
+    Add a fun title containing the destination.
 
     Return the response in this JSON format only, no additional text:
     [{
@@ -270,7 +284,8 @@ export async function generateRecommendationTrips(
     }]`;
   } else {
     prompt = `
-    Generate a unique and surprising travel destination that most people wouldn’t think of, but offers a perfect mix of adventure, culture, food, and natural beauty. Keep it off the beaten path and ideal for a memorable, unexpected getaway.
+    Generate ${numberOfTrips} unique and surprising travel destinations that most people wouldn’t think of, but offers a perfect mix of adventure, culture, food, and natural beauty. Keep it off the beaten path and ideal for a memorable, unexpected getaway.
+    Add a fun title containing the destination.
 
     Return the response in this JSON format only, no additional text:
     [{
@@ -296,9 +311,78 @@ export async function generateRecommendationTrips(
       })
     );
 
-    return { success: true, trips: updatedTrips };
+    return updatedTrips;
   } catch (error) {
     console.error("Error generating recommended trips", error);
     throw new Error("Failed to generate recommended trips");
+  }
+}
+
+export async function getRecommendedTrips() {
+  const session = await auth();
+
+  const user = session?.user;
+
+  if (!user || !user.email) {
+    throw new Error("Unauthorized");
+  }
+
+  const loggedInUser = await db.user.findUnique({
+    where: {
+      email: user.email,
+    },
+    include: {
+      tripRecommendation: true,
+    },
+  });
+
+  if (!loggedInUser) throw new Error("User not found");
+
+  // If no recommendations exist, generate them
+  try {
+    if (!loggedInUser.tripRecommendation) {
+      const historyRecommendation = await generateRecommendationTrips(
+        "HISTORY",
+        5
+      );
+      const appRecommendation = await generateRecommendationTrips("APP", 8);
+      const surpriseRecommendation = await generateRecommendationTrips(
+        "SURPRISE",
+        2
+      );
+
+      const tripRecommendation = await db.tripRecommendation.upsert({
+        where: {
+          userId: loggedInUser.id,
+        },
+
+        update: {
+          appRecommendation,
+          historyRecommendation,
+          surpriseRecommendation,
+          nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+        create: {
+          userId: loggedInUser.id,
+          appRecommendation,
+          historyRecommendation,
+          surpriseRecommendation,
+          nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return { success: true, tripRecommendation };
+    } else {
+      const tripRecommendation = await db.tripRecommendation.findUnique({
+        where: {
+          userId: loggedInUser.id,
+        },
+      });
+
+      return { success: true, tripRecommendation };
+    }
+  } catch (error) {
+    console.error("Error getting recommended trips", error);
+    throw new Error("Failed to get recommended trips");
   }
 }

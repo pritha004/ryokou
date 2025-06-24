@@ -47,7 +47,7 @@ export const PreloaderWrapper = ({ children }: Props) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
           <div className="flex flex-col items-center space-y-4">
             <div className="flex items-center justify-center border border-white rounded-full p-6">
-              <IconComponent className="w-10 h-10 text-white" />
+              <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-white" />
             </div>
             <div className="w-full flex items-center justify-center">
               <h1 className="max-w-xs text-white text-base font-lato transition-all duration-300 uppercase text-center ">

@@ -26,9 +26,9 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.15, duration: 0.5, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.12, duration: 0.5, ease: "easeOut" }}
       className="flex flex-1 flex-col w-full rounded-md border max-sm:w-full shadow-lg bg-[#000000] border-black"
     >
       <div className="relative overflow-hidden rounded-t-md">

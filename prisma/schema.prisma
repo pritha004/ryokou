@@ -9,15 +9,16 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  name        String?
-  imageUrl    String?
-  nationality String
-  currency    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Trip        Trip[]
+  id                 String              @id @default(uuid())
+  email              String              @unique
+  name               String?
+  imageUrl           String?
+  nationality        String
+  currency           String
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  Trip               Trip[]
+  tripRecommendation TripRecommendation?
 }
 
 model Trip {
@@ -49,4 +50,14 @@ model Visa_Info {
   visa_summary    Json[]
   cost_estimate   Float
   processing_time DateTime
+}
+
+model TripRecommendation {
+  id                     String   @id @default(uuid())
+  appRecommendation      Json
+  historyRecommendation  Json
+  surpriseRecommendation Json
+  user                   User     @relation(fields: [userId], references: [id])
+  userId                 String   @unique
+  nextUpdate             DateTime
 }

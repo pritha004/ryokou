@@ -8,10 +8,14 @@ export type Country = {
 };
 
 export const getDestinationImage = async (destination: string) => {
+  const destination_query = encodeURIComponent(
+    `${destination} travel tourism landscape city architecture famous`
+  );
   const response = await fetch(
-    `https://api.unsplash.com/photos/random?query=${destination}&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
+    `https://api.unsplash.com/search/photos?query=${destination_query}&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
   );
 
   const data = await response.json();
-  return data?.urls?.full;
+
+  return data?.results[0]?.urls?.full;
 };

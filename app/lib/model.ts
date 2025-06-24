@@ -48,3 +48,9 @@ export interface TripDetails {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface TripRecommendations {
+  trip_title: string;
+  destination: string;
+  image: string;
+}
