@@ -55,6 +55,7 @@ model Visa_Info {
 
 model TripRecommendation {
   id                     String   @id @default(uuid())
+  heroImage              String
   appRecommendation      Json
   historyRecommendation  Json
   surpriseRecommendation Json

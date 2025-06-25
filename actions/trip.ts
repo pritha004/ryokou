@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import db from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getDestinationImage } from "./destination-image";
+import { getDestinationImage, getRandomTravelImage } from "./destination-image";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -374,6 +374,8 @@ export async function getRecommendedTrips() {
         2
       );
 
+      const heroImage = await getRandomTravelImage();
+
       const tripRecommendation = await db.tripRecommendation.upsert({
         where: {
           userId: loggedInUser.id,
@@ -387,6 +389,7 @@ export async function getRecommendedTrips() {
         },
         create: {
           userId: loggedInUser.id,
+          heroImage,
           appRecommendation,
           historyRecommendation,
           surpriseRecommendation,

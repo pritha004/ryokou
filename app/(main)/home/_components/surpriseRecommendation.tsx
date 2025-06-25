@@ -6,12 +6,14 @@ type Props = {
   recommendations: TripRecommendations[];
 };
 
-const SurpriseRecommendationTrip = async ({ recommendations }: Props) => {
+const SurpriseRecommendationTrip = ({ recommendations }: Props) => {
   return (
     <section className="">
       {recommendations?.length > 0 ? (
         <>
-          <h1 className="text-[calc(1rem+2vw)] font-playfair">Surprise Me!</h1>
+          <h1 className="text-[calc(1rem+1.2vw)] font-playfair">
+            Surprise Me!
+          </h1>
           <div className="mt-4 grid justify-around lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-14">
             {recommendations?.map(
               (

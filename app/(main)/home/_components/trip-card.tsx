@@ -48,6 +48,9 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
             setIsLoaded(true);
           }}
         />
+        <h1 className="z-20 absolute m-2 px-2 top-0 text-white uppercase font-lato bg-black">
+          {destination}
+        </h1>
       </div>
 
       <div className="flex justify-between items-center mt-2 p-2 gap-2">

@@ -6,12 +6,12 @@ type Props = {
   recommendations: TripRecommendations[];
 };
 
-const AppRecommendationTrips = async ({ recommendations }: Props) => {
+const AppRecommendationTrips = ({ recommendations }: Props) => {
   return (
     <section className="">
       {recommendations?.length > 0 ? (
         <>
-          <h1 className="text-[calc(1rem+2vw)] font-playfair">
+          <h1 className="text-[calc(1rem+1.2vw)] font-playfair">
             App Recommendations
           </h1>
 

@@ -93,7 +93,7 @@ const CompleteProfileForm = () => {
 
   return (
     <div className="mt-12 flex justify-center">
-      <Card className="w-full max-w-md mt-10 mx-2 drop-shadow-md drop-shadow-cyan-400/30">
+      <Card className="w-full max-w-md mt-10 mx-2 drop-shadow-md drop-shadow-white/10">
         <CardHeader>
           <CardTitle className=" text-lg md:text-2xl text-center">
             Complete Your Profile
