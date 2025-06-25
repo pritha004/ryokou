@@ -25,6 +25,7 @@ model Trip {
   id                String      @id @default(uuid())
   userId            String
   user              User        @relation(fields: [userId], references: [id])
+  is_trip_saved     Boolean     @default(false)
   trip_name         String
   image             String?
   destination       String

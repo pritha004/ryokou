@@ -44,6 +44,7 @@ export interface TripDetails {
   interests: string;
   number_of_persons: number;
   is_visa_required: boolean;
+  is_trip_saved: boolean;
   itineraries: ItineraryData;
   createdAt: Date;
   updatedAt: Date;

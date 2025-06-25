@@ -82,13 +82,6 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
           {tripName}
         </h3>
         <div className="m-1 text-center font-montserrat leading-normal flex justify-center items-center gap-2">
-          <Button
-            size={"sm"}
-            className="cursor-pointer"
-            onClick={(e) => onDeleteClick(e, id)}
-          >
-            <X />
-          </Button>
           {/* <Button size={"sm"} className="cursor-pointer">
             <Share2 />
           </Button> */}

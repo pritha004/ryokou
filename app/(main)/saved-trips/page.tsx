@@ -3,7 +3,7 @@ import React from "react";
 import TripList from "./_components/trip-list";
 
 const SavedTrips = async () => {
-  const allTrips = await getTrips();
+  const allTrips = await getTrips(true);
 
   return (
     <div className="w-full min-h-screen p-4">

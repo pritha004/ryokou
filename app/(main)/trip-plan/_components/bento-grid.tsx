@@ -16,14 +16,46 @@ import {
   LayoutGrid,
   Banknote,
   Download,
+  Bookmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { saveTrip } from "@/actions/trip";
+import useFetch from "@/hooks/use-fetch";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const BentoGrid = ({ tripDetails }: any) => {
   const tripData: TripDetails = tripDetails;
 
-  const { itineraries, image, trip_name } = tripData;
+  const { id, itineraries, image, trip_name, is_trip_saved } = tripData;
+
+  const router = useRouter();
+
+  const {
+    loading: saveTripLoading,
+    fn: saveTripFn,
+    data: saveTripResult,
+  } = useFetch(saveTrip);
+
+  const handleSaveTrip = async (id: string, isSaved: boolean) => {
+    try {
+      await saveTripFn(id, isSaved);
+    } catch (error) {
+      console.error("Save trip error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (saveTripResult?.success && !saveTripLoading) {
+      if (saveTripResult.trip.is_trip_saved) {
+        toast.success("Trip saved successfully!");
+      }
+      router.push(`/trip-plan?id=${saveTripResult.trip.id}`);
+      router.refresh();
+    }
+  }, [saveTripResult, saveTripLoading]);
 
   return (
     <div className="w-full min-h-screen md:max-h-screen mb-12 md:mb-0">
@@ -44,9 +76,19 @@ const BentoGrid = ({ tripDetails }: any) => {
           className="object-cover z-0"
           priority
         />
-        <h1 className="z-20 font-bold px-2 flex items-center text-[calc(1rem+6vw)] text-white uppercase font-serif drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+        <h1 className="z-20 font-bold px-2 flex items-center text-[calc(1rem+4vw)] text-white uppercase font-serif drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
           {trip_name}
         </h1>
+        <div className="absolute top-4 right-4 z-20 bg-black p-4 rounded-full flex justify-center items-center">
+          <Bookmark
+            className={`cursor-pointer hover:fill-white ${
+              is_trip_saved ? "fill-white" : ""
+            }`}
+            onClick={() => {
+              handleSaveTrip(id, !is_trip_saved);
+            }}
+          />
+        </div>
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 p-4 gap-4 w-full h-full">
         {/* Itinerary */}

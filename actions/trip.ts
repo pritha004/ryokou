@@ -120,7 +120,7 @@ export async function generateAndSaveTripDetails(tripData: any) {
   }
 }
 
-export async function getTrips() {
+export async function getTrips(isSaved?: boolean) {
   const session = await auth();
 
   const user = session?.user;
@@ -138,20 +138,41 @@ export async function getTrips() {
   if (!loggedInUser) throw new Error("User not found");
 
   try {
-    const trips = await db.trip.findMany({
-      where: {
-        userId: loggedInUser.id,
-      },
-      select: {
-        id: true,
-        trip_name: true,
-        image: true,
-        travel_style: true,
-        interests: true,
-        destination: true,
-        createdAt: true,
-      },
-    });
+    let trips;
+    if (isSaved) {
+      trips = await db.trip.findMany({
+        where: {
+          userId: loggedInUser.id,
+          is_trip_saved: true,
+        },
+        select: {
+          id: true,
+          trip_name: true,
+          image: true,
+          travel_style: true,
+          interests: true,
+          is_trip_saved: true,
+          destination: true,
+          createdAt: true,
+        },
+      });
+    } else {
+      trips = await db.trip.findMany({
+        where: {
+          userId: loggedInUser.id,
+        },
+        select: {
+          id: true,
+          trip_name: true,
+          image: true,
+          travel_style: true,
+          interests: true,
+          is_trip_saved: true,
+          destination: true,
+          createdAt: true,
+        },
+      });
+    }
     return {
       success: true,
       trips,
@@ -386,5 +407,39 @@ export async function getRecommendedTrips() {
   } catch (error) {
     console.error("Error getting recommended trips", error);
     throw new Error("Failed to get recommended trips");
+  }
+}
+
+export async function saveTrip(id: string, isSaved: boolean) {
+  const session = await auth();
+
+  const user = session?.user;
+
+  if (!user || !user.email) {
+    throw new Error("Unauthorized");
+  }
+
+  const loggedInUser = await db.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (!loggedInUser) throw new Error("User not found");
+
+  try {
+    const updatedTrip = await db.trip.update({
+      where: {
+        id,
+      },
+      data: {
+        is_trip_saved: isSaved,
+      },
+    });
+
+    return { success: true, trip: updatedTrip };
+  } catch (error: any) {
+    console.error("Error saving trip:", error.message);
+    throw new Error("Failed to save trip");
   }
 }
