@@ -20,7 +20,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { navLinks } from "@/constants/nav-links";
 import Link from "next/link";
-import { LogOut, Menu } from "lucide-react";
+import { History, LogOut, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
 
@@ -101,16 +101,20 @@ export function AppSidebar({ user }: any) {
 function MobileSidebar({ user }: any) {
   return (
     <nav className="fixed bottom-0 z-50 flex w-full justify-around items-center border-t bg-black py-2 shadow md:hidden">
-      {navLinks.map((item) => (
-        <Link
-          key={item.title}
-          href={item.url}
-          className={"flex flex-col items-center text-xs text-gray-100 gap-y-1"}
-        >
-          <item.icon className="h-6 w-6" />
-          <span className="text-[10px]">{item.title}</span>
-        </Link>
-      ))}
+      {navLinks
+        .filter((link) => link.url !== "/history")
+        .map((item) => (
+          <Link
+            key={item.title}
+            href={item.url}
+            className={
+              "flex flex-col items-center text-xs text-gray-100 gap-y-1"
+            }
+          >
+            <item.icon className="h-6 w-6" />
+            <span className="text-[10px]">{item.title}</span>
+          </Link>
+        ))}
       <DropdownMenu>
         <DropdownMenuTrigger
           className={
@@ -126,6 +130,16 @@ function MobileSidebar({ user }: any) {
           <span className="text-[10px]">{user.name}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuLabel>
+            <Button
+              onClick={async () => redirect("/history")}
+              size="sm"
+              className={`mt-2 text-left w-fit bg-transparent text-sm hover:bg-transparent cursor-pointer text-white `}
+            >
+              <History size={20} />
+              <span className="ml-2">History</span>
+            </Button>
+          </DropdownMenuLabel>
           <DropdownMenuLabel>
             <Button
               onClick={async () => redirect("/logout")}
