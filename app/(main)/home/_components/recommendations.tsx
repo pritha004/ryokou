@@ -5,6 +5,7 @@ import AppRecommendationTrips from "../_components/appRecommendations";
 import SurpriseRecommendationTrip from "../_components/surpriseRecommendation";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Hero from "./hero";
 
 const Recommendations = ({
   username,
@@ -15,33 +16,10 @@ const Recommendations = ({
 }) => {
   return (
     <>
-      <div className="relative w-full h-[60vh] flex items-center justify-center text-white">
-        <Image
-          src={recommendations?.tripRecommendation?.heroImage}
-          alt="Background"
-          fill
-          className="object-cover z-0"
-          priority
-        />
-        <div className="z-10 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, duration: 0.5, ease: "easeOut" }}
-            className="text-[calc(1rem+4vw)] font-playfair font-bold drop-shadow-[0_4px_4px_rgba(1,1,1,1)]"
-          >
-            Welcome {username?.split(" ")[0]}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: 0.5, ease: "easeOut" }}
-            className="text-[calc(1rem+1vw)] mt-2 italic font-mono drop-shadow-[0_4px_4px_rgba(1,1,1,1)]"
-          >
-            Your next adventure awaits...
-          </motion.p>
-        </div>
-      </div>
+      <Hero
+        username={username?.split(" ")[0]}
+        image={recommendations?.tripRecommendation?.heroImage}
+      />
       <div className="px-4">
         <div className="">
           <HistoryRecommendationTrips

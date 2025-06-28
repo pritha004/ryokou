@@ -368,7 +368,7 @@ export async function getRecommendedTrips() {
         "HISTORY",
         5
       );
-      const appRecommendation = await generateRecommendationTrips("APP", 8);
+      const appRecommendation = await generateRecommendationTrips("APP", 5);
       const surpriseRecommendation = await generateRecommendationTrips(
         "SURPRISE",
         2
