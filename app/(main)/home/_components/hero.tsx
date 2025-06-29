@@ -61,7 +61,7 @@ const Hero = ({
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 w-40 h-40 sm:w-40 sm:h-40 md:bottom-[-50] md:right-0 md:w-60 md:h-60 lg:w-48 lg:h-48 rotate-[40deg]">
+      <div className="absolute z-10 bottom-0 left-0 w-40 h-40 sm:w-40 sm:h-40 md:bottom-[-50] md:right-0 md:w-60 md:h-60 lg:w-48 lg:h-48 rotate-[40deg]">
         <Image
           src="/images/round_flights.svg"
           alt="Flights"
@@ -72,8 +72,8 @@ const Hero = ({
       </div>
 
       <div
-        className="absolute top-4 left-54 w-20 h-20 sm:w-40 sm:h-40
-        md:top-[10] md:left-[240] md:w-36 md:h-36 lg:w-48 lg:h-48 rotate-[6deg] xl:w-32 xl:h-32"
+        className="absolute top-4 left-54 w-20 h-20 sm:top-[10] sm:left-[300] sm:w-28 sm:h-28
+        md:top-[10] md:left-[240] md:w-36 md:h-36 lg:w-32 lg:h-32 rotate-[6deg] xl:w-32 xl:h-32"
         style={{
           animation: "bounce 3s ease-in-out infinite",
         }}
@@ -98,7 +98,7 @@ const Hero = ({
       </div>
 
       <div
-        className="absolute bottom-[180] right-[10] w-15 h-15 sm:w-40 sm:h-40 md:w-36 md:h-36 lg:top-[30] lg:right-[50] lg:w-32 lg:h-32 xl:w-32 xl:h-32"
+        className="absolute bottom-[180] right-[10] w-15 h-15 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:top-[30] lg:right-[50] lg:w-32 lg:h-32 xl:w-32 xl:h-32"
         style={{
           animation: "bounce 3s ease-in-out infinite",
         }}
@@ -113,7 +113,7 @@ const Hero = ({
       </div>
 
       <div
-        className="absolute bottom-[60] left-[160] w-20 h-20 sm:w-40 sm:h-40 md:bottom-[40] md:left-[240] md:w-36 md:h-36 lg:bottom-[-40] lg:left-[300] lg:w-32 lg:h-32 xl:w-40 xl:h-40"
+        className="absolute z-10 bottom-[60] left-[160] w-20 h-20 sm:bottom-[-20] sm:left-[320] sm:w-32 sm:h-32 md:bottom-[40] md:left-[240] md:w-36 md:h-36 lg:bottom-[-40] lg:left-[300] lg:w-32 lg:h-32 xl:w-40 xl:h-40"
         style={{
           animation: "bounce 3s ease-in-out infinite",
         }}
@@ -131,6 +131,16 @@ const Hero = ({
         <Image
           src="/images/beach.svg"
           alt="Beach"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      <div className="absolute lg:bottom-30 lg:left-[320] lg:w-48 lg:h-48 xl:bottom-0 xl:left-[520] xl:w-48 xl:h-48">
+        <Image
+          src="/images/mountain.svg"
+          alt="Mountain"
           fill
           className="object-cover"
           priority
