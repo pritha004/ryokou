@@ -382,6 +382,7 @@ export async function getRecommendedTrips() {
         },
 
         update: {
+          heroImage,
           appRecommendation,
           historyRecommendation,
           surpriseRecommendation,

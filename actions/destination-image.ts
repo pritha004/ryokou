@@ -25,10 +25,11 @@ export const getRandomTravelImage = async () => {
     `a famous travel destination view`
   );
   const response = await fetch(
-    `https://api.unsplash.com/search/photos?query=${destination_query}&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
+    `https://api.unsplash.com/photos/random?query=${destination_query}&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
   );
 
   const data = await response.json();
 
-  return data?.results[0]?.urls?.full;
+  console.log(data);
+  return data?.urls?.full;
 };
