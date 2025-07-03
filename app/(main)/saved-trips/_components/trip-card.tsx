@@ -1,13 +1,11 @@
 "use client";
 
 import { deleteTrip } from "@/actions/trip";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/use-fetch";
 import { motion } from "framer-motion";
-import { Eye, Info, Share2, X } from "lucide-react";
 import Image from "next/image";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -33,16 +31,6 @@ export const ItineraryCard: React.FC<ItineraryCardProps> = ({
     fn: deleteTripFn,
     data: deleteResult,
   } = useFetch(deleteTrip);
-
-  const onDeleteClick = async (e: MouseEvent, id: string) => {
-    e.stopPropagation();
-    e.preventDefault();
-    try {
-      await deleteTripFn(id);
-    } catch (error) {
-      console.error("Itinerary generation error:", error);
-    }
-  };
 
   useEffect(() => {
     if (deleteResult?.success && !deleteLoading) {

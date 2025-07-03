@@ -19,15 +19,15 @@ import {
   Bookmark,
   Loader2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { saveTrip } from "@/actions/trip";
 import useFetch from "@/hooks/use-fetch";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ItineraryPDF from "./itinerary-pdf";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BentoGrid = ({ tripDetails }: any) => {
   const tripData: TripDetails = tripDetails;
@@ -36,9 +36,6 @@ const BentoGrid = ({ tripDetails }: any) => {
     tripData;
 
   const router = useRouter();
-
-  const pdfRef = useRef<HTMLDivElement | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const {
     loading: saveTripLoading,
@@ -78,9 +75,9 @@ const BentoGrid = ({ tripDetails }: any) => {
       >
         <Image
           src={image}
-          alt="Background"
+          alt={`${destination.toLowerCase()}-image`}
           fill
-          className="object-cover z-0"
+          className={`object-cover z-0`}
           priority
         />
         <h1 className="z-20 font-bold px-2 flex items-center text-[calc(1rem+4vw)] text-white uppercase font-serif drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">

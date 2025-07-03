@@ -26,11 +26,11 @@ export const PreloaderWrapper = ({ children }: Props) => {
     setMounted(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 1600);
 
     const textInterval = setInterval(() => {
       setIndex((i) => (i + 1) % words.length);
-    }, 800);
+    }, 400);
 
     return () => {
       clearTimeout(timer), clearInterval(textInterval);
