@@ -68,7 +68,15 @@ const TripForm = ({ destination }: { destination: string }) => {
 
   useEffect(() => {
     if (tripResult?.success && !tripLoading) {
-      toast.success("Trip generated successfully!");
+      toast.success(
+        <span className="flex items-center">
+          Trip generated successfully! Loading
+          <span className="flex gap-1 ml-2">
+            <Loader2 className="animate-spin" />
+          </span>
+        </span>
+      );
+
       router.push(`/trip-plan?id=${tripResult.id}`);
       router.refresh();
     }
