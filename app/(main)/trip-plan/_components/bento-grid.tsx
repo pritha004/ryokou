@@ -17,21 +17,28 @@ import {
   Banknote,
   Download,
   Bookmark,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { saveTrip } from "@/actions/trip";
 import useFetch from "@/hooks/use-fetch";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import ItineraryPDF from "./itinerary-pdf";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const BentoGrid = ({ tripDetails }: any) => {
   const tripData: TripDetails = tripDetails;
 
-  const { id, itineraries, image, trip_name, is_trip_saved } = tripData;
+  const { id, itineraries, image, trip_name, is_trip_saved, destination } =
+    tripData;
 
   const router = useRouter();
+
+  const pdfRef = useRef<HTMLDivElement | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const {
     loading: saveTripLoading,
@@ -99,9 +106,28 @@ const BentoGrid = ({ tripDetails }: any) => {
           transition={{ duration: 0.5 }}
         >
           <div className="w-full p-4">
-            <h1 className="text-3xl lg:text-4xl text-center font-playfair font-bold uppercase">
-              Itinerary
-            </h1>
+            <div className="flex justify-between">
+              <h1 className="text-3xl lg:text-4xl font-playfair font-bold uppercase">
+                Itinerary
+              </h1>
+              <PDFDownloadLink
+                document={
+                  <ItineraryPDF
+                    itineraries={itineraries}
+                    tripName={trip_name}
+                  />
+                }
+                fileName={`${destination}-Itinerary.pdf`}
+              >
+                {({ loading }) =>
+                  loading ? (
+                    <Loader2 className="h-6 w-6 animate-spin" />
+                  ) : (
+                    <Download className="h-6 w-6" />
+                  )
+                }
+              </PDFDownloadLink>
+            </div>
 
             <div className="w-full mt-4 space-y-4">
               <Accordion
@@ -244,19 +270,6 @@ const BentoGrid = ({ tripDetails }: any) => {
                 </div>
               </motion.div>
             )}
-
-          {/* <motion.div
-            className="rounded-lg border border-gray-400 w-full flex items-center justify-center p-4"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0, duration: 0.5 }}
-          >
-            <div className="w-full flex justify-end">
-              <Button variant="outline" size="sm" className="cursor-pointer ">
-                <Download /> Download Itinerary
-              </Button>
-            </div>
-          </motion.div> */}
         </div>
       </div>
     </div>
